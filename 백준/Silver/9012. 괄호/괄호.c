@@ -1,38 +1,43 @@
 #include <stdio.h>
-#include <string.h>
 
 int main()
 {
-	int n, i, j, count;
-	scanf("%d", &n);
-	char str[51];
-	i = 0;
-	while (i < n)
+	char buffer[64];
+	int T;
+	scanf("%d", &T);
+
+	while (T != 0)
 	{
-		scanf("%s", str);
-		j = 0;
-		count = 0;
-		while (j < strlen(str))
+		int sum = 0;
+		scanf("%s", buffer);
+		char* ptr = buffer;
+		
+		while (*ptr != '\0')
 		{
-			if (str[j] == '(')
+			if (*ptr == '(')
 			{
-				count++;
+				sum++;
 			}
-			else
+			else if (*ptr == ')')
 			{
-				count--;
+				sum--;
 			}
-			if (count < 0)
-			{
-				printf("NO\n");
+			ptr++;
+			if (sum < 0)
 				break;
-			}
-			j++;
 		}
-		if (count == 0)
+
+		if (sum == 0)
+		{
 			printf("YES\n");
-		else if (count > 0)
+			T--;
+		}
+		else
+		{
 			printf("NO\n");
-		i++;
+			T--;
+			continue;
+		}
 	}
+	return 0;
 }
