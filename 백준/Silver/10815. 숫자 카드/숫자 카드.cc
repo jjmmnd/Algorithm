@@ -1,62 +1,35 @@
 #include <iostream>
-#include <algorithm>
+#include <vector>
+#include <map>
+
 using namespace std;
 
 int main()
 {
-	int N;
-	cin >> N;
-	int* cardArr = new int[N];
-	for (int i = 0; i < N; i++)
+	cin.tie(nullptr)->sync_with_stdio(false);
+
+	int n;
+	cin >> n;
+
+	map<int, bool> m_Card;
+	int card;
+	for (int i = 0; i < n; i++)
 	{
-		cin >> cardArr[i];
+		cin >> card;
+		m_Card.insert({ card,true });
 	}
 
-	int M;
-	cin >> M;
-	int* numberArr = new int[M];
-	for (int i = 0; i < M; i++)
+	
+	int cardSize;
+	cin >> cardSize;
+	int newCard;
+	for (int i = 0; i < cardSize; i++)
 	{
-		cin >> numberArr[i];
-	}
-
-	bool zeroFlag;
-
-	sort(cardArr, cardArr + N);	// 1. cardArr를 오름차순 정렬
-	for (int i = 0; i < M; i++)
-	{
-		zeroFlag = true;
-
-		int right = N - 1;	// 2. cardArr의 제일 큰 인덱스
-		int left = 0;		// 3. cardArr의 제일 작은 인덱스
-
-		while (left <= right)
-		{
-			int mid = (right + left) / 2;	// 4. cardArr의 중간 인덱스 
-			
-			if (cardArr[mid] == numberArr[i])
-			{
-				cout << 1 << ' ';
-				zeroFlag = false;
-				break;
-			}
-			else if (cardArr[mid] > numberArr[i])
-			{
-				// 비교중심을 mid의 왼쪽으로 이동
-				right = mid - 1;
-			}
-			else
-			{
-				// 비교중심을 mid의 오른쪽으로 이동 
-				left = mid + 1;
-			}
-		}
-
-		if (zeroFlag)
-		{
+		cin >> newCard;
+		if (m_Card[newCard])
+			cout << 1 << ' ';
+		else
 			cout << 0 << ' ';
-		}
 	}
 	
-	return 0;
 }
