@@ -6,6 +6,7 @@ using namespace std;
 
 int main()
 {
+	// 이거 안 해주면 시간초과 뜸 ㅠㅠ
 	cin.tie(nullptr)->sync_with_stdio(false);
 
 	int n;
