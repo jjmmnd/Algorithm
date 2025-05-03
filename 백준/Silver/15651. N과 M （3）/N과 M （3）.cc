@@ -4,7 +4,6 @@ using namespace std;
 
 int N, M;
 int g_result[8];
-bool g_visited[8];
 
 void dfs(int depth)
 {
@@ -20,13 +19,8 @@ void dfs(int depth)
 
 	for (int i = 1; i <= N; i++)
 	{
-		if (g_visited[i] == false)
-		{
-//			g_visited[i] = true;
-			g_result[depth] = i;
-			dfs(depth + 1);
-			g_visited[i] = false;
-		}
+		g_result[depth] = i;
+		dfs(depth + 1);
 	}
 }
 
