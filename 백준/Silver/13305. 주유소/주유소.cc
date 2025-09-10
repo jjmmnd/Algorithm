@@ -18,7 +18,7 @@ int main()
 	for (int i = 0; i < N; i++)
 		cin >> price[i];
 
-	int curPrice = price[0];
+	long long curPrice = price[0];
 	long long totalPrice = curPrice * distance[1];	// 1까지 거리 값은 처음에 무조건 필요
 	
 	for (int i = 1; i < N - 1; i++)
