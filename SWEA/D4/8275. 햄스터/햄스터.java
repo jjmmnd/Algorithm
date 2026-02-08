@@ -49,22 +49,9 @@ public class Solution {
     }
 
     public static void countHam(int cnt, int totalHam){
-        if(cnt == N){
-            // 기록과 비교
-            for(int m=0; m<M; m++) {
-                int left = record[m][0];
-                int right = record[m][1];
-                int sum = 0;
-                for(int i=left-1; i<right; i++) {
-                    sum += tmpHams[i];
-                }
-                if(sum != record[m][2]) {
-                    return;
-                }
-            }
-            isPossible = true;
-            // 기록과 전부 일치한 경우 갱신
 
+        if(cnt == N){
+            isPossible = true;
 
             if(totalHam > finalHams[cnt]) {
                 finalHams = Arrays.copyOf(tmpHams, N+1);
@@ -87,7 +74,26 @@ public class Solution {
 
         for(int x=0; x<=X; x++){
             tmpHams[cnt] = x;
+            // 현재 cnt가 기록의 마지막 순간일 때만 호출 -> 가지치기
+            if(!checkRecord(cnt)) continue;
             countHam(cnt+1, totalHam+x);
         }
+    }
+
+    private static boolean checkRecord(int cnt) {
+        for(int m=0; m<M; m++){
+            int end = record[m][1] - 1;
+            if(end == cnt){
+                int start = record[m][0] - 1;
+                int sum = 0;
+                for(int s = start; s <= end; s ++){
+                    sum += tmpHams[s];
+                }
+                if(sum != record[m][2]){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
