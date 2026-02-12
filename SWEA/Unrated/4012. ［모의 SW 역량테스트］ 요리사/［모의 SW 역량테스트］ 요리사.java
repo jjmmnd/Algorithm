@@ -57,6 +57,7 @@ public class Solution {
                 }
             }
             diff = Math.min(diff, Math.abs(flavorA - flavorB));
+            return;
         }
 
         for(int i=start; i<n; i++){
