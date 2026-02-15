@@ -3,13 +3,12 @@ import java.io.*;
 
 // 사이클 없음
 // 작은 사람은 어떻게 구하지
-// 작은 배열 큰 배열 두 개 만들어서 갱신 -> 실패.. 중복 카운트
-// 역방향 그래프 만들어
 
 public class Solution {
 
     static int num, n, m;
-    static List<List<Integer>> graph, revGraph;
+    static List<List<Integer>> graph;
+    static int[] bigger, smaller;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,13 +19,13 @@ public class Solution {
             n = Integer.parseInt(br.readLine());
             m = Integer.parseInt(br.readLine());
             num = 0;
+            bigger = new int[n+1];
+            smaller = new int[n+1];
 
             // 그래프 초기화
             graph = new ArrayList<>();
-            revGraph = new ArrayList<>();
             for(int i=0; i<n+1; i++){
                 graph.add(new ArrayList<>());
-                revGraph.add(new ArrayList<>());
             }
 
             for(int i=0; i<m; i++){
@@ -34,20 +33,19 @@ public class Solution {
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
                 graph.get(a).add(b);
-                revGraph.get(b).add(a);
             }
-
+            for(int i=1; i<=n; i++)
+                bfs(i);
             for(int i=1; i<=n; i++){
-                int cnt = bfs(i, graph) + bfs(i, revGraph)+1;
-                if(cnt==n) num++;
+                if(bigger[i]+smaller[i] == n-1){
+                    num++;
+                }
             }
-
             System.out.println("#"+tc+" "+num);
         }
     }
 
-    private static int bfs(int i, List<List<Integer>> graph) {
-        int cnt = 0;
+    private static void bfs(int i) {
         Queue<Integer> q = new LinkedList<>();
         boolean[] visited = new boolean[n+1];
         q.offer(i);
@@ -58,10 +56,12 @@ public class Solution {
                 if(!visited[v]){
                     visited[v] = true;
                     q.offer(v);
-                    cnt++;
+
+                    bigger[i]++;
+                    smaller[v]++;
                 }
             }
         }
-        return cnt;
     }
+
 }
