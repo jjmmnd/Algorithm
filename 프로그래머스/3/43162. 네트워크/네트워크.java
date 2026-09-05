@@ -1,46 +1,56 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
-    boolean[] select;
-    int num, answer;
     public int solution(int n, int[][] computers) {
-        // int answer = 0;
+        int answer = 0;
         
-        // 컴퓨터 개수
-        int totalComs = computers.length;
-        select = new boolean[totalComs];
+        // 연결된 네트워크 개수 찾기
+        List<List<Integer>> graph = new LinkedList<>();
+        for(int i=0; i<n; i++){
+            graph.add(new LinkedList<>());
+        }
         
-        num = totalComs;
-        while(num > 0){
-            for(int i=0; i<totalComs; i++){
-                if(select[i] == true)
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(i==j)
                     continue;
-                // i: 시작 컴퓨터
-                num -= bfs(i, computers, totalComs);
-                answer++;
+                if(computers[i][j]==1){
+                    graph.get(i).add(j);
+                    graph.get(j).add(i);
+                }
+            }
+        }
+        
+        // 연결 확인
+        boolean[] visit = new boolean[n];
+        int total = n;
+        while(total>0){
+            ArrayDeque<Integer> q = new ArrayDeque<>();
+            for(int i=0; i<n; i++){
+                if(!visit[i]){
+                    q.push(i);
+                    visit[i] = true;
+                    answer++;
+                    total--;
+                    // System.out.println(i);
+                    break;
+                }
+            }
+            
+            while(!q.isEmpty()){
+                int cur = q.pop();
+                // System.out.println(cur);
+                for(int nxt: graph.get(cur)){
+                    if(!visit[nxt]){
+                        // System.out.println(nxt);
+                        visit[nxt] = true;
+                        q.offer(nxt);
+                        total--;
+                    }
+                }
             }
         }
         
         return answer;
-    }
-    
-    public int bfs(int start, int[][] coms, int total){
-        Queue<Integer> q = new ArrayDeque<>();
-        q.add(start);
-        int cnt = 0;
-        while(!q.isEmpty()){
-            int cur = q.poll();
-            select[cur] = true;
-            cnt++;
-            for(int i=0; i<total; i++){
-                if(cur == i || select[i] == true)
-                    continue;
-                if(coms[cur][i] == 1){
-                    q.offer(i);
-                }  
-            }
-        }
-        return cnt;
     }
 }
